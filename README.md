@@ -1,0 +1,2 @@
+# github
+ ariza kayıt sist 

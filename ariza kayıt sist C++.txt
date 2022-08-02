@@ -1,0 +1,169 @@
+#include <iostream>
+#include <queue>
+#include <ctime>
+using namespace std;
+
+
+ class client
+ {   
+     public:
+     queue<string> clientNameList;
+     queue<string> breakDownDataList;
+     string name;
+     string breakDownData;
+      // client recording
+    
+    void createClient(){
+        
+    cout<<"Enter your name"<<endl;
+    cin>>name;
+    clientNameList.push(name);
+    cout<<"Enter your problem"<<endl;
+    cin>>breakDownData;
+    breakDownDataList.push(breakDownData);  
+    cout<<"Created your request...."<<endl;
+    sleep(1.0);
+    system("clear");
+    }
+    
+    string popList(){
+      string tempValue;
+      string tempvalue2;
+      tempvalue2 = clientNameList.front();
+       tempValue = breakDownDataList.front();
+       clientNameList.pop();
+       breakDownDataList.pop();
+       return tempValue+" "+tempvalue2;
+    }
+
+    void displayList(){
+        system("clear");
+      cout<<"client list is:"<<endl;
+        string tempName;
+        string tempBreakdown;
+        for(int i=0;i<clientNameList.size();i++){
+          cout<<i<<"-";
+          cout<<" "<<clientNameList.front();
+          cout<<" "<<breakDownDataList.front()<<endl;
+          
+          tempName = clientNameList.front();
+          tempBreakdown = breakDownDataList.front();
+          clientNameList.pop();
+          breakDownDataList.pop();
+          clientNameList.push(tempName);
+          breakDownDataList.push(tempBreakdown);
+        }
+    }
+    
+    bool listEmpty(){
+      return breakDownDataList.empty();    
+    }
+    
+    void sleep(float seconds){
+    clock_t startClock = clock();
+    float secondsAhead = seconds * CLOCKS_PER_SEC;
+      while(clock() < startClock+secondsAhead);
+       return;
+    }
+  
+ };
+ 
+  class employee
+  {
+      public:
+      queue<string> todoList;
+      
+      bool employeeVerified(int password){
+          if(password == 123){
+            cout<<"Verified accepted"<<endl;
+            system("clear");
+          return true;
+          }
+          else{
+            cout<<"Not Acceptable Password"<<endl;
+           return false;
+          }
+      }
+      
+       void addTodoList(string todoData){
+           todoList.push(todoData);
+       }
+      
+      void displayMyList(){
+         system("clear");
+         string tempData;
+          for (int i = 0; i < todoList.size(); i++) {
+              cout<<" "<<todoList.front()<<endl;
+              tempData = todoList.front();
+              todoList.pop();
+              todoList.push(tempData);
+          }
+      }
+      
+  };
+
+int main()
+{  
+    client C1;
+    employee E1;
+    int password;
+    int choice;
+    string temp;
+    int choice2 = 0;
+    int x;
+while(true){
+    cout<<"Please select operation..."<<endl;
+    cout<<"1- Client entrence"<<endl;      
+    cout<<"2- Employee enterance"<<endl;
+    cout<<"3- Exit"<<endl;
+    cin>>choice;
+    switch(choice){
+     case 1:
+         C1.createClient();
+       break;
+       
+     case 2:
+        cout<<"Enter the Password"<<endl;
+        cin>>password;
+        if(E1.employeeVerified(password) == true){
+            while(true){
+              cout<<" Please select operation..."<<endl;
+              cout<<" 1-Take a job "<<endl;
+              cout<<" 2-Display my List "<<endl;
+              cout<<" 3-Display all list"<<endl;
+              cout<<" 4-Back"<<endl;
+              cin>>choice2;
+             switch(choice2){
+              case 1:
+                 if(!C1.listEmpty()){
+                    temp = C1.popList();
+                    E1.addTodoList(temp);
+                    cout<<"added your list"<<endl;
+                 }
+                  else{
+                    cout<<"Job list is empty"<<endl;
+                  }
+                break;
+              case 2:
+                 cout<<"Your list is"<<endl;
+                 E1.displayMyList();
+                break;
+              case 3:
+                 C1.displayList();
+                break;
+              case 4:
+                return false;
+              break;
+            }
+          }
+        }
+       
+    case 3:
+      cout<<"Program ending..."<<endl;
+      return false;
+       break;
+      }
+  }
+    return 0;
+
+   }
